@@ -90,6 +90,8 @@ do-profile-check-monolite: $(depsdir)/.stamp
 endif
 
 $(PROFILE_EXE): $(topdir)/build/common/basic-profile-check.cs
+	echo $(BOOTSTRAP_MCS) --version 1>&2
+
 	$(BOOTSTRAP_MCS) /warn:0 /out:$@ $<
 	echo -n "Bootstrap compiler: " 1>&2
 	$(BOOTSTRAP_MCS) --version 1>&2

@@ -20,7 +20,7 @@
 #include "mono-semaphore.h"
 #include "mono-threads-posix-signals.h"
 
-#if defined(__APPLE__) || defined(__OpenBSD__) || defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
+#if defined(__APPLE__) || defined(__OpenBSD__) || defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__HAIKU__)
 #define DEFAULT_SUSPEND_SIGNAL SIGXFSZ
 #else
 #define DEFAULT_SUSPEND_SIGNAL SIGPWR

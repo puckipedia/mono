@@ -8,7 +8,9 @@
 void
 mono_threads_core_get_stack_bounds (guint8 **staddr, size_t *stsize)
 {
-	pthread_attr_t attr;
+	thread_info info;
+	
+	get_thread_info(B_CURRENT_TEAM, &info);
 
 	*staddr = NULL;
 	*stsize = (size_t)-1;

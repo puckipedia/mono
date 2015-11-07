@@ -222,7 +222,7 @@ void GC_push_regs()
 	&& !(defined(FREEBSD) && defined(__ELF__)) \
 	&& !(defined(NETBSD) && defined(__ELF__)) \
 	&& !(defined(OPENBSD) && defined(__ELF__)) \
-	&& !(defined(BEOS) && defined(__ELF__)) \
+	&& !(defined(HAIKU) && defined(__ELF__)) \
 	&& !defined(DOS4GW) && !defined(HURD)
 	/* I386 code, generic code does not appear to work */
 	/* It does appear to work under OS2, and asms dont */
@@ -260,7 +260,7 @@ void GC_push_regs()
 #	  define HAVE_PUSH_REGS
 #	endif
 
-#	if ( defined(I386) && defined(BEOS) && defined(__ELF__) )
+#	if ( defined(I386) && defined(HAIKU) && defined(__ELF__) )
 	/* As far as I can understand from				*/
 	/* http://www.beunited.org/articles/jbq/nasm.shtml,		*/
 	/* only ebp, esi, edi and ebx are not scratch. How MMX 		*/

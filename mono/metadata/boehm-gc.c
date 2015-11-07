@@ -1341,7 +1341,6 @@ void
 mono_gc_register_for_finalization (MonoObject *obj, void *user_data)
 {
 	guint offset = 0;
-
 #ifndef GC_DEBUG
 	/* This assertion is not valid when GC_DEBUG is defined */
 	g_assert (GC_base (obj) == (char*)obj - offset);

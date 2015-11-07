@@ -64,7 +64,11 @@ Mono_Posix_Syscall_settimeofday (
 		ptz = &_tz;
 	}
 
-	r = settimeofday (ptv, ptz);
+	#if defined(__HAIKU__)
+		return -1;
+	#else
+		r = settimeofday (ptv, ptz);
+	#endif
 
 	return r;
 }

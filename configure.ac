@@ -1614,6 +1614,7 @@ if test x$host_win32 = xno; then
 	dnl *****************************
 # on FreeBSD -STABLE, the pthreads functions all reside in libc_r
 # and libpthread does not exist
+# on Haiku, -pthread is also not needed
 #
 	case "${host}" in
 		*-*-*freebsd*)
@@ -1621,6 +1622,9 @@ if test x$host_win32 = xno; then
 		;;
 		*-*-*openbsd*)
 			AC_CHECK_LIB(pthread, main, LIBS="$LIBS -pthread")
+		;;
+		*-*-haiku*)
+			AC_CHECK_LIB(pthread, main)
 		;;
 		*)
 			AC_CHECK_LIB(pthread, main, LIBS="$LIBS -lpthread")

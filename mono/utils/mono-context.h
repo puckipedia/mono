@@ -29,7 +29,7 @@
 
 /*HACK, move this to an eventual mono-signal.c*/
 #if defined( __linux__) || defined(__sun) || defined(__APPLE__) || defined(__NetBSD__) || \
-       defined(__FreeBSD__) || defined(__OpenBSD__)
+       defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__HAIKU__)
 #ifdef HAVE_SIGACTION
 #define MONO_SIGNAL_USE_SIGACTION 1
 #endif

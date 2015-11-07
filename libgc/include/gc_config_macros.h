@@ -57,7 +57,7 @@
 	defined(GC_HPUX_THREADS) || defined(GC_OSF1_THREADS) || \
 	defined(GC_DGUX386_THREADS) || defined(GC_DARWIN_THREADS) || \
 	defined(GC_AIX_THREADS) || defined(GC_NETBSD_THREADS) || \
-	defined(GC_OPENBSD_THREADS) || \
+	defined(GC_OPENBSD_THREADS) || defined(GC_HAIKU_THREADS) || \
         (defined(GC_WIN32_THREADS) && defined(__CYGWIN32__))
 #   define GC_PTHREADS
 # endif
@@ -102,6 +102,10 @@
 # endif
 # if defined(_AIX)
 #   define GC_AIX_THREADS
+#   define GC_PTHREADS
+# endif
+# if defined(__Haiku__)
+#   define GC_HAIKU_THREADS
 #   define GC_PTHREADS
 # endif
 #endif /* GC_THREADS */

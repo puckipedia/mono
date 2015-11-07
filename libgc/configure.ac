@@ -86,7 +86,7 @@ case "$THREADS" in
     ;;
  posix | pthreads)
     THREADS=posix
-    AC_CHECK_LIB(pthread, pthread_self, THREADDLLIBS="-lpthread",,)
+    AC_SEARCH_LIBS([pthread_self], [pthread], [])
     case "$host" in
      x86-*-linux* | ia64-*-linux* | i386-*-linux* | i486-*-linux* | i586-*-linux* | i686-*-linux* | x86_64-*-linux* | alpha*-*-linux* | s390*-*-linux* | sparc*-*-linux* | powerpc-*-linux*)
 	AC_DEFINE(GC_LINUX_THREADS)
@@ -179,6 +179,16 @@ case "$THREADS" in
 	AM_CPPFLAGS="$AM_CPPFLAGS -pthread"
 	THREADDLLIBS="-lpthread -lrt"
 	;;
+     *-*-haiku*)
+	AC_DEFINE(GC_HAIKU_THREADS)
+	if test "${enable_parallel_mark}" = yes; then
+		AC_DEFINE(PARALLEL_MARK)
+	fi
+#	AC_DEFINE(THREAD_LOCAL_ALLOC)
+	AC_DEFINE(USE_PTHREAD_SPECIFIC)
+#	AC_DEFINE(USE_COMPILER_TLS)
+	;;
+
       *)
 	AC_MSG_ERROR("Pthreads not supported by the GC on this platform.")
 	;;

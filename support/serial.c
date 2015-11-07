@@ -177,7 +177,8 @@ get_bytes_in_buffer (int fd, gboolean input)
 {
 	gint32 retval;
 
-	if (ioctl (fd, input ? FIONREAD : TIOCOUTQ, &retval) == -1) {
+// second was TIOCOUTQ
+	if (ioctl (fd, input ? FIONREAD : FIONREAD, &retval) == -1) {
 		return -1;
 	}
 

@@ -21,7 +21,11 @@
 #endif
 
 #if defined(_POSIX_VERSION)
+#if defined(__HAIKU__)
+#include <errno.h>
+#else
 #include <sys/errno.h>
+#endif
 #include <sys/param.h>
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -137,7 +141,8 @@ mono_process_list (int *size)
 	return buf;
 #elif defined(__HAIKU__)
 	/* FIXME: Add back the code from 9185fcc305e43428d0f40f3ee37c8a405d41c9ae */
-	g_assert_not_reached ();
+	*size = 0;
+//	g_assert_not_reached ();
 	return NULL;
 #else
 	const char *name;

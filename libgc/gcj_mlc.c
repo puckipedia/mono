@@ -142,7 +142,6 @@ register ptr_t op;
 register ptr_t * opp;
 register word lw;
 DCL_LOCK_STATE;
-
     if( EXPECT(SMALL_OBJ(lb), 1) ) {
 #       ifdef MERGE_SIZES
 	  lw = GC_size_map[lb];

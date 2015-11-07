@@ -1258,6 +1258,23 @@ GC_bool GC_register_main_static_data()
 
 #endif /* DARWIN */
 
+#ifdef HAIKU
+#include <kernel/image.h>
+
+GC_INNER void GC_register_dynamic_libraries()
+{
+    image_info info;
+    int32 cookie = 0;
+    while (get_next_image_info(0, &cookie, &info) == B_OK)
+    {
+        void *data = info.data;
+        GC_add_roots_inner(data, data + info.data_size, TRUE);
+    }
+}
+
+#endif /* HAIKU */
+
+
 #else /* !DYNAMIC_LOADING */
 
 #ifdef PCR

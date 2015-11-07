@@ -1149,6 +1149,11 @@ void GC_thr_init()
 	  sysctl((int[2]) {CTL_HW, HW_NCPU}, 2, &ncpus, &len, NULL, 0);
 	  GC_nprocs = ncpus;
 #       endif
+#   if defined(GC_HAIKU_THREADS)
+      system_info info;
+      get_system_info(&info);
+      GC_nprocs = info.cpu_count;
+#   endif
 #	if defined(GC_LINUX_THREADS) || defined(GC_DGUX386_THREADS)
           GC_nprocs = GC_get_nprocs();
 #	endif

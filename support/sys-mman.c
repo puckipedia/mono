@@ -84,16 +84,22 @@ int
 Mono_Posix_Syscall_mlock (void *start, mph_size_t len)
 {
 	mph_return_if_size_t_overflow (len);
-
+#if defined(__HAIKU__)
+	return -1;
+#else
 	return mlock (start, (size_t) len);
+#endif
 }
 
 int
 Mono_Posix_Syscall_munlock (void *start, mph_size_t len)
 {
 	mph_return_if_size_t_overflow (len);
-
+#if defined(__HAIKU__)
+	return -1;
+#else
 	return munlock (start, (size_t) len);
+#endif
 }
 
 #ifdef HAVE_MREMAP
@@ -119,7 +125,11 @@ Mono_Posix_Syscall_mincore (void *start, mph_size_t length, unsigned char *vec)
 {
 	mph_return_if_size_t_overflow (length);
 
+#if defined(__HAIKU__)
+	return -1;
+#else
 	return mincore (start, (size_t) length, (void*)vec);
+#endif
 }
 
 #ifdef HAVE_POSIX_MADVISE

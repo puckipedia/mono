@@ -764,14 +764,14 @@ ptr_t GC_get_stack_base()
 
 # endif /* MS Windows */
 
-# ifdef BEOS
+# ifdef __HAIKU__
 # include <kernel/OS.h>
 ptr_t GC_get_stack_base(){
 	thread_info th;
 	get_thread_info(find_thread(NULL),&th);
 	return th.stack_end;
 }
-# endif /* BEOS */
+# endif /* __HAIKU__ */
 
 
 # ifdef OS2
@@ -1122,7 +1122,7 @@ void *GC_set_stackbottom = NULL;
 
 #endif /* FREEBSD_STACKBOTTOM */
 
-#if !defined(BEOS) && !defined(AMIGA) && !defined(MSWIN32) \
+#if !defined(__HAIKU__) && !defined(AMIGA) && !defined(MSWIN32) \
     && !defined(MSWINCE) && !defined(OS2) && !defined(NOSYS) && !defined(ECOS) \
     && !defined(GC_OPENBSD_THREADS)
 
@@ -1182,7 +1182,7 @@ ptr_t GC_get_stack_base()
 #   endif /* STACKBOTTOM */
 }
 
-# endif /* ! AMIGA, !OS 2, ! MS Windows, !BEOS, !NOSYS, !ECOS */
+# endif /* ! AMIGA, !OS 2, ! MS Windows, !__HAIKU__, !NOSYS, !ECOS */
 
 #if defined(GC_OPENBSD_THREADS)
 
@@ -1662,7 +1662,8 @@ void GC_register_data_segments()
 
 # if !defined(OS2) && !defined(PCR) && !defined(AMIGA) \
 	&& !defined(MSWIN32) && !defined(MSWINCE) \
-	&& !defined(MACOS) && !defined(DOS4GW) && !defined(SN_TARGET_PS3)
+	&& !defined(MACOS) && !defined(DOS4GW) && !defined(SN_TARGET_PS3) \
+	&& !defined(HAIKU)
 
 # ifdef SUNOS4
     extern caddr_t sbrk();
@@ -1819,6 +1820,19 @@ word bytes;
 #endif /* Not RS6000 */
 
 # endif /* UN*X */
+
+#ifdef HAIKU
+#include <stdlib.h>
+
+void *GC_haiku_get_mem(word bytes)
+{
+    void* mem;
+    if (posix_memalign(&mem, GC_page_size, bytes) == 0)
+        return mem;
+    else
+        return NULL;
+}
+#endif
 
 # ifdef OS2
 

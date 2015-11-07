@@ -233,11 +233,6 @@
 #   endif
 #   define mach_type_known
 # endif
-# if defined(__BEOS__) && defined(_X86_)
-#    define I386
-#    define BEOS
-#    define mach_type_known
-# endif
 # if defined(LINUX) && (defined(i386) || defined(__i386__))
 #    define I386
 #    define mach_type_known
@@ -382,6 +377,11 @@
 # endif
 # if defined(__NetBSD__) && (defined(i386) || defined(__i386__))
 #   define I386
+#   define mach_type_known
+# endif
+# if defined(__HAIKU__) && (defined(i386) || defined(__i386__))
+#   define I386
+#   define HAIKU
 #   define mach_type_known
 # endif
 # if defined(__NetBSD__) && defined(__x86_64__)
@@ -1157,12 +1157,14 @@
 #       define DATASTART ((ptr_t)((((word) (etext)) + 0xfff) & ~0xfff))
 #       define STACKBOTTOM ((ptr_t) 0x3ffff000) 
 #   endif
-#   ifdef BEOS
-#     define OS_TYPE "BEOS"
+#   ifdef HAIKU
+#     define OS_TYPE "HAIKU"
 #     include <OS.h>
 #     define GETPAGESIZE() B_PAGE_SIZE
       extern int etext[];
 #     define DATASTART ((ptr_t)((((word) (etext)) + 0xfff) & ~0xfff))
+#     define DYNAMIC_LOADINg
+#     define MPROTECT_VDB
 #   endif
 #   ifdef SUNOS5
 #	define OS_TYPE "SUNOS5"
@@ -2251,7 +2253,8 @@
 # if defined(SVR4) || defined(LINUX) || defined(IRIX5) || defined(HPUX) \
 	    || defined(OPENBSD) || defined(NETBSD) || defined(FREEBSD) \
 	    || defined(DGUX) || defined(BSD) || defined(SUNOS4) \
-	    || defined(_AIX) || defined(DARWIN) || defined(OSF1)
+	    || defined(_AIX) || defined(DARWIN) || defined(OSF1) \
+	    || defined(HAIKU)
 #   define UNIX_LIKE   /* Basic Unix-like system calls work.	*/
 # endif
 
@@ -2349,6 +2352,9 @@
 # endif
 # if defined(GC_WIN32_THREADS) && !defined(MSWIN32) && !defined(CYGWIN32)
 	--> inconsistent configuration
+# endif
+# if defined(GC_HAIKU_THREADS) && !defined(__HAIKU__)
+    --> inconsistent configuration
 # endif
 
 # if defined(PCR) || defined(SRC_M3) || \
@@ -2507,6 +2513,9 @@
 #           if defined(SN_TARGET_PS3)
 	           extern void *ps3_get_mem (size_t size);
 #              define GET_MEM(bytes) (struct hblk*) ps3_get_mem (bytes)
+#           elif defined(HAIKU)
+               extern void *GC_haiku_get_mem(size_t size);
+#              define GET_MEM(bytes) (struct hblk*) GC_haiku_get_mem(bytes)
 #           else
 		extern ptr_t GC_unix_get_mem(word size);
 #               define GET_MEM(bytes) (struct hblk *)GC_unix_get_mem(bytes)

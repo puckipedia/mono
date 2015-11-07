@@ -28,7 +28,7 @@
 extern int tkill (pid_t tid, int signal);
 #endif
 
-#if defined(_POSIX_VERSION) || defined(__native_client__)
+#if defined(_POSIX_VERSION) || defined(__native_client__) || defined(__HAIKU__)
 
 #include <sys/resource.h>
 
